@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Products</title>
+    <script>
+        function showMessage(message) {
+            const alertBox = document.createElement('div');
+            alertBox.textContent = message;
+            alertBox.style.position = 'fixed';
+            alertBox.style.bottom = '150px';
+            alertBox.style.left = '20px';
+            alertBox.style.backgroundColor = 'lightgreen';
+            alertBox.style.padding = '10px';
+            alertBox.style.border = '1px solid green';
+            alertBox.style.borderRadius = '5px';
+            alertBox.style.zIndex = '1000';
+            document.body.appendChild(alertBox);
+
+            setTimeout(() => {
+                alertBox.remove();
+            }, 5000);
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        td.buttonalign {
+            text-align: center;
+            vertical-align: middle;
+        }
+        td.buttonalign > a,
+        td.buttonalign > form,
+        td.buttonalign > form > input {
+            padding: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="alert alert-info">
+        <span th:text="'Welcome, ' + ${user.username}"></span>
+    </div>
+
+    <h2>Your Products</h2>
+    
+    <div th:if="${message}" th:inline="javascript">
+        <script>
+            showMessage([[${message}]]);
+        </script>
+    </div>
+    
+    <!-- Display the table with products -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Info</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.getPp().getId()}"></td>
+                <td th:text="${product.getPp().toString()}"></td>
+                <td class="buttonalign">
+                    <a class="btn btn-primary" th:href="@{/product/update/{id}(id=${product.getPp().getId()})}">Update Product</a>
+                </td>
+                <td class="buttonalign">
+                    <form th:method="POST" th:action="@{/product/delete/{id}(id=${product.getPp().getId()})}">
+                        <input type="submit" class="btn btn-danger" value="Delete Product"/>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="/printed/product/create">Add New Product</a>
+    <a class="btn btn-secondary" href="/printed/logout">Logout</a>
+</div>
+
+<!-- JS and Bootstrap Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

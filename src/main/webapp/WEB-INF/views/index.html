@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Printed Products</title>
+    <script>
+        function showMessage(message) {
+            const alertBox = document.createElement('div');
+            alertBox.textContent = message;
+            alertBox.style.position = 'fixed';
+            alertBox.style.bottom = '150px';
+            alertBox.style.left = '20px';
+            alertBox.style.backgroundColor = 'lightgreen';
+            alertBox.style.padding = '10px';
+            alertBox.style.border = '1px solid green';
+            alertBox.style.borderRadius = '5px';
+            alertBox.style.zIndex = '1000';
+            document.body.appendChild(alertBox);
+
+            setTimeout(() => {
+                alertBox.remove();
+            }, 5000);
+        }
+    </script>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet" integrity="sha384-
+EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
+    <style>
+        td.buttonalign {
+            text-align: center;
+            vertical-align: middle;
+        }
+        td.buttonalign > a,
+        td.buttonalign > form,
+        td.buttonalign > form > input {
+            padding: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>PrintedProducts</h2>
+    <div th:if="${message}" th:inline="javascript">
+        <script>
+            showMessage([[${message}]]);
+        </script>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Info</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.getId()}"></td>
+            <td class="" th:text="${product.toString()}"></td>
+            <td class="buttonalign"><a class="btn btn-primary"
+                                       th:href="@{/{id}/updateData(id=${product.getId()})}">Update products data</a></td>
+            <td class="buttonalign">
+                <form th:method="POST"
+                      th:action="@{/productDelete/{id}(id=${product.getId()})}">
+                    <input type="submit" class="btn btn-primary"
+                           value="Delete Product"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="/printed/createProducts">Add new products</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-
+q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"
+        integrity="sha384-
+ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8Wv5+5/fbF"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-
+JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
