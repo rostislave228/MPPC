@@ -33,6 +33,7 @@ public class AuthenticationController {
     
     @GetMapping("/signup")
     public String showSignUpPage(Model model) {
+        System.out.println("signup");
     	model.addAttribute("user", new User());
         return "signup";
     }
